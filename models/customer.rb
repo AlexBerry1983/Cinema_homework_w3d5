@@ -43,6 +43,12 @@ class Customer
      update
   end
 
+  def count_tickets
+    sql = "SELECT * FROM tickets WHERE #{@id} = customer_id"
+    result = SqlRunner.run(sql)
+    result.count
+  end
+
   def Customer.get_many(sql)
     customers = SqlRunner.run(sql)
     result = customers.map { |customer| Customer.new(customer) }
@@ -61,7 +67,7 @@ class Customer
     return customers_rb
   end
 
-  def Customer.find_id(sought_id)
+  def Customer.find_by_id(sought_id)
     sql = "SELECT * FROM customers WHERE id = #{sought_id}"
     found_customer = SqlRunner.run(sql)
     return Customer.new(found_customer.first)
